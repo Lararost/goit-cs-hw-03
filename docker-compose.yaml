@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: hw03pass
+      POSTGRES_DB: task_manager
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d task_manager"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+  mongo:
+    image: mongo:7.0
+    ports:
+      - "127.0.0.1:27018:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+  python:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://postgres:hw03pass@postgres:5432/task_manager
+      MONGODB_URI: mongodb://mongo:27017/
+      MONGODB_DB: hw03
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+volumes:
+  postgres_data:
+  mongo_data:
