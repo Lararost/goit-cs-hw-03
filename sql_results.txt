@@ -1,0 +1,18 @@
+larisadarmorost@MacBook-Pro-Larisa goit-cs-hw-03 % cd "$HOME/Desktop/goit-cs-hw-03" &&
+docker compose run --rm python python task_01/create_tables.py &&
+docker compose run --rm python python task_01/seed.py &&
+docker compose run --rm python python verify.py
+[+] Creating 2/0
+ ✔ Container goit-cs-hw-03-postgres-1  Running                                                                                               0.0s 
+ ✔ Container goit-cs-hw-03-mongo-1     Running                                                                                               0.0s 
+Таблиці users, status, tasks створено.
+[+] Creating 2/0
+ ✔ Container goit-cs-hw-03-mongo-1     Running                                                                                               0.0s 
+ ✔ Container goit-cs-hw-03-postgres-1  Running                                                                                               0.0s 
+Додано 20 користувачів і 60 завдань. Статуси: new, in progress, completed.
+[+] Creating 2/0
+ ✔ Container goit-cs-hw-03-postgres-1  Running                                                                                               0.0s 
+ ✔ Container goit-cs-hw-03-mongo-1     Running                                                                                               0.0s 
+PostgreSQL: дані, UNIQUE, CASCADE та всі SQL-запити — OK
+MongoDB: усі CRUD-операції — OK
+larisadarmorost@MacBook-Pro-Larisa goit-cs-hw-03 % 
